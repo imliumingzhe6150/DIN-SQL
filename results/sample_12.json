@@ -1,0 +1,11 @@
+{
+  "sample_id": 12,
+  "question": "List all song names by singers above the average age.",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: singer.Song_Name, singer.Age",
+  "classification_result": "Reason: Need to compare each singer's age against the average age of all singers, which requires a nested subquery to compute the average first.\nLabel: NESTED\nSub_questions: [\"What is the average age of all singers?\", \"Which singers have an age above that average?\", \"What are the song names of those singers?\"]",
+  "predicted_class": "NESTED",
+  "generated_sql": "SELECT Song_Name FROM singer WHERE Age > (SELECT AVG(Age) FROM singer);",
+  "corrected_sql": "SELECT Song_Name FROM singer WHERE Age > (SELECT AVG(Age) FROM singer);",
+  "gold_sql": "SELECT song_name FROM singer WHERE age  >  (SELECT avg(age) FROM singer)"
+}
