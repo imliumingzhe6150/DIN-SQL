@@ -4,6 +4,7 @@ import re
 import sqlite3
 from pathlib import Path
 from llm_client import call_llm
+from collections import Counter
 
 def load_json(file_path):
     """读取 JSON 文件并返回 Python 对象。"""
@@ -266,6 +267,14 @@ def execute_sql(database_path, sql):
         connection.close()
 
 
+def compare_results(predicted_rows, gold_rows, ordered):
+    """比较查询结果，根据题目要求决定是否考虑行顺序。"""
+    if ordered:
+        return predicted_rows == gold_rows
+
+    return Counter(predicted_rows) == Counter(gold_rows)
+
+
 def make_self_correction_prompt(question, schema, generated_sql):
     """组装 SQL 检查与修正 prompt。"""
     return f"""# Instruction
@@ -326,6 +335,7 @@ if __name__ == "__main__":
     question = example["question"]
     db_id = example["db_id"]
     gold_sql = example["query"]
+    ordered = bool(example["sql"]["orderBy"])
 
     schema = find_database_schema(all_schemas, db_id)
 
@@ -415,8 +425,8 @@ if __name__ == "__main__":
         print(gold_result)
 
         print("\n两者结果是否相同：")
-        print(predicted_result == gold_result)
-
+        print(compare_results(predicted_result, gold_result, ordered))
+    
     except sqlite3.Error as error:
         print("\nSQL 执行失败：")
         print(error)
@@ -448,8 +458,8 @@ if __name__ == "__main__":
         print(corrected_result)
 
         print("\n与 Gold SQL 的执行结果是否相同：")
-        print(corrected_result == gold_result)
-
+        print(compare_results(corrected_result, gold_result, ordered))
+    
     except sqlite3.Error as error:
         print("\n修正后的 SQL 执行失败：")
         print(error)

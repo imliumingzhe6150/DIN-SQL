@@ -1,0 +1,11 @@
+{
+  "sample_id": 65,
+  "question": "Find the first name and age of students who have a dog but do not have a cat as a pet.",
+  "database": "pets_1",
+  "schema_links": "Schema_links:\n- Student.StuID = Has_Pet.StuID\n- Has_Pet.PetID = Pets.PetID\n- Student.Fname\n- Student.Age\n- Pets.PetType\n- Has_Pet.StuID\n- Has_Pet.PetID",
+  "classification_result": "Reason: The query requires finding students with a dog and then excluding those who also have a cat, which typically needs subqueries or set difference logic along with joins to the pet tables.\nLabel: NESTED\nSub_questions: [\"Find the StuID of students who have a dog.\", \"Find the StuID of students who have a cat.\", \"Select Fname and Age from Student for dog owners whose StuID is not in the cat owners set.\"]",
+  "predicted_class": "NESTED",
+  "generated_sql": "SELECT s.Fname, s.Age\nFROM Student s\nWHERE s.StuID IN (\n    SELECT hp.StuID\n    FROM Has_Pet hp\n    JOIN Pets p ON hp.PetID = p.PetID\n    WHERE p.PetType = 'Dog'\n)\nAND s.StuID NOT IN (\n    SELECT hp.StuID\n    FROM Has_Pet hp\n    JOIN Pets p ON hp.PetID = p.PetID\n    WHERE p.PetType = 'Cat'\n);",
+  "corrected_sql": "SELECT s.Fname, s.Age\nFROM Student s\nWHERE s.StuID IN (\n    SELECT hp.StuID\n    FROM Has_Pet hp\n    JOIN Pets p ON hp.PetID = p.PetID\n    WHERE p.PetType = 'Dog'\n)\nAND s.StuID NOT IN (\n    SELECT hp.StuID\n    FROM Has_Pet hp\n    JOIN Pets p ON hp.PetID = p.PetID\n    WHERE p.PetType = 'Cat'\n);",
+  "gold_sql": "SELECT T1.fname ,  T1.age FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'dog' AND T1.stuid NOT IN (SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat')"
+}

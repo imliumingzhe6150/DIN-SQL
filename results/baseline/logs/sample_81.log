@@ -1,0 +1,8 @@
+正在调用模型，直接生成 SQL……
+SELECT S.Fname, S.Sex
+FROM Student S
+JOIN Has_Pet HP ON S.StuID = HP.StuID
+GROUP BY S.StuID, S.Fname, S.Sex
+HAVING COUNT(HP.PetID) > 1;
+与 Gold 结果是否匹配： True
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/baseline/sample_81.json

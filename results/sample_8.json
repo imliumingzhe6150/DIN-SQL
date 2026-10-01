@@ -1,0 +1,11 @@
+{
+  "sample_id": 8,
+  "question": "What are all distinct countries where singers above age 20 are from?",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: [singer.Country, singer.Age]",
+  "classification_result": "Reason: The question only requires filtering and selecting distinct values from the `singer` table, with no joins or nested queries needed.\nLabel: EASY\nSub_questions: []",
+  "predicted_class": "EASY",
+  "generated_sql": "SELECT DISTINCT Country FROM singer WHERE Age > 20;",
+  "corrected_sql": "SELECT DISTINCT Country FROM singer WHERE Age > 20;",
+  "gold_sql": "SELECT DISTINCT country FROM singer WHERE age  >  20"
+}

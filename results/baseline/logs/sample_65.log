@@ -1,0 +1,19 @@
+正在调用模型，直接生成 SQL……
+SELECT DISTINCT S.Fname, S.Age
+FROM Student S
+WHERE EXISTS (
+    SELECT 1
+    FROM Has_Pet HP
+    JOIN Pets P ON HP.PetID = P.PetID
+    WHERE HP.StuID = S.StuID
+      AND P.PetType = 'Dog'
+)
+AND NOT EXISTS (
+    SELECT 1
+    FROM Has_Pet HP
+    JOIN Pets P ON HP.PetID = P.PetID
+    WHERE HP.StuID = S.StuID
+      AND P.PetType = 'Cat'
+);
+与 Gold 结果是否匹配： False
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/baseline/sample_65.json

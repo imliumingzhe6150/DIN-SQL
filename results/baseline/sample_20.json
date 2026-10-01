@@ -1,0 +1,10 @@
+{
+  "sample_id": 20,
+  "question": "How many concerts are there in year 2014 or 2015?",
+  "database": "concert_singer",
+  "gold_sql": "SELECT count(*) FROM concert WHERE YEAR  =  2014 OR YEAR  =  2015",
+  "generated_sql": "SELECT COUNT(*) FROM concert WHERE Year IN (2014, 2015);",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

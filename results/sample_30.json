@@ -1,0 +1,11 @@
+{
+  "sample_id": 30,
+  "question": "Show countries where a singer above age 40 and a singer below 30 are from.",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: singer.Country, singer.Age",
+  "classification_result": "Reason: The query can be answered from the singer table by grouping by Country and checking that each country has at least one singer above 40 and at least one singer below 30; no joins or nested subqueries are required.\nLabel: EASY\nSub_questions: []",
+  "predicted_class": "EASY",
+  "generated_sql": "SELECT Country FROM singer GROUP BY Country HAVING SUM(Age > 40) > 0 AND SUM(Age < 30) > 0;",
+  "corrected_sql": "SELECT Country FROM singer GROUP BY Country HAVING SUM(Age > 40) > 0 AND SUM(Age < 30) > 0;",
+  "gold_sql": "SELECT country FROM singer WHERE age  >  40 INTERSECT SELECT country FROM singer WHERE age  <  30"
+}

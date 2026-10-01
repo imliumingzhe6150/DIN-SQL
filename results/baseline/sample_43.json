@@ -1,0 +1,10 @@
+{
+  "sample_id": 43,
+  "question": "Find the number of concerts happened in the stadium with the highest capacity .",
+  "database": "concert_singer",
+  "gold_sql": "select count(*) from concert where stadium_id = (select stadium_id from stadium order by capacity desc limit 1)",
+  "generated_sql": "SELECT COUNT(*) FROM concert WHERE Stadium_ID IN (SELECT Stadium_ID FROM stadium WHERE Capacity = (SELECT MAX(Capacity) FROM stadium));",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

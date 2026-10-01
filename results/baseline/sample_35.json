@@ -1,0 +1,10 @@
+{
+  "sample_id": 35,
+  "question": "List singer names and number of concerts for each singer.",
+  "database": "concert_singer",
+  "gold_sql": "SELECT T2.name ,  count(*) FROM singer_in_concert AS T1 JOIN singer AS T2 ON T1.singer_id  =  T2.singer_id GROUP BY T2.singer_id",
+  "generated_sql": "SELECT singer.Name, COUNT(singer_in_concert.concert_ID) AS number_of_concerts\nFROM singer\nLEFT JOIN singer_in_concert ON singer.Singer_ID = singer_in_concert.Singer_ID\nGROUP BY singer.Singer_ID, singer.Name;",
+  "execution_success": true,
+  "result_match": false,
+  "error": null
+}

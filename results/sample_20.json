@@ -1,0 +1,11 @@
+{
+  "sample_id": 20,
+  "question": "How many concerts are there in year 2014 or 2015?",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: `concert.Year`",
+  "classification_result": "Reason: The question only requires counting rows from the `concert` table filtered by `Year` being 2014 or 2015, so no JOIN or nested query is needed.\nLabel: EASY\nSub_questions: []",
+  "predicted_class": "EASY",
+  "generated_sql": "SELECT COUNT(*) FROM concert WHERE Year IN (2014, 2015);",
+  "corrected_sql": "SELECT COUNT(*) FROM concert WHERE Year IN (2014, 2015);",
+  "gold_sql": "SELECT count(*) FROM concert WHERE YEAR  =  2014 OR YEAR  =  2015"
+}

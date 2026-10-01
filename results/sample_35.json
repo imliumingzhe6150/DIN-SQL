@@ -1,0 +1,11 @@
+{
+  "sample_id": 35,
+  "question": "List singer names and number of concerts for each singer.",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: [singer.Name, singer.Singer_ID, singer_in_concert.Singer_ID, singer_in_concert.concert_ID, singer.Singer_ID = singer_in_concert.Singer_ID]",
+  "classification_result": "Reason: The query requires joining the `singer` table with the `singer_in_concert` table to count concerts per singer. No nested subqueries are necessary.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT singer.Name, COUNT(singer_in_concert.concert_ID) AS number_of_concerts\nFROM singer\nLEFT JOIN singer_in_concert ON singer.Singer_ID = singer_in_concert.Singer_ID\nGROUP BY singer.Singer_ID, singer.Name;",
+  "corrected_sql": "SELECT singer.Name, COUNT(singer_in_concert.concert_ID) AS number_of_concerts\nFROM singer\nLEFT JOIN singer_in_concert ON singer.Singer_ID = singer_in_concert.Singer_ID\nGROUP BY singer.Singer_ID, singer.Name;",
+  "gold_sql": "SELECT T2.name ,  count(*) FROM singer_in_concert AS T1 JOIN singer AS T2 ON T1.singer_id  =  T2.singer_id GROUP BY T2.singer_id"
+}

@@ -1,0 +1,11 @@
+{
+  "sample_id": 2,
+  "question": "Show name, country, age for all singers ordered by age from the oldest to the youngest.",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: [singer.Name, singer.Country, singer.Age]",
+  "classification_result": "Reason: The query only needs to select columns from the single `singer` table and order by `Age`; no joins or nested queries are required.\nLabel: EASY\nSub_questions: []",
+  "predicted_class": "EASY",
+  "generated_sql": "SELECT Name, Country, Age FROM singer ORDER BY Age DESC;",
+  "corrected_sql": "SELECT Name, Country, Age FROM singer ORDER BY Age DESC;",
+  "gold_sql": "SELECT name ,  country ,  age FROM singer ORDER BY age DESC"
+}

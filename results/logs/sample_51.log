@@ -1,0 +1,178 @@
+======================================================================
+即将交给 Schema Linking 模型的 Prompt
+======================================================================
+# Instruction
+Find the schema links needed to generate a SQL query for the following question.
+
+# Database schema
+Table Student, columns = [*, StuID, LName, Fname, Age, Sex, Major, Advisor, city_code]
+Table Has_Pet, columns = [*, StuID, PetID]
+Table Pets, columns = [*, PetID, PetType, pet_age, weight]
+
+Foreign_keys = [Has_Pet.StuID = Student.StuID, Has_Pet.PetID = Pets.PetID]
+
+# Question
+Find number of pets owned by students who are older than 20.
+
+# Answer
+Schema_links:
+
+======================================================================
+调试信息——不属于 Prompt
+======================================================================
+db_id: pets_1
+Gold SQL: SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.age  >  20
+
+正在调用 DeepSeek：Schema Linking……
+
+Schema Linking 模型回答：
+Schema_links: [Student.StuID, Student.Age, Has_Pet.StuID, Has_Pet.PetID]  
+Join: Student.StuID = Has_Pet.StuID
+
+即将交给 Classification 模型的 Prompt：
+# Instruction
+Classify the SQL query needed to answer the question.
+
+Rules:
+- If nested queries are needed, choose NESTED.
+- If JOIN is needed but nested queries are not, choose NON-NESTED.
+- If neither JOIN nor nested queries are needed, choose EASY.
+
+If the label is NESTED, list the sub-questions needed to solve it.
+Write Sub_questions as a JSON array of strings, using double quotes.
+For other labels, write Sub_questions: [].
+
+# Database schema
+Table Student, columns = [*, StuID, LName, Fname, Age, Sex, Major, Advisor, city_code]
+Table Has_Pet, columns = [*, StuID, PetID]
+Table Pets, columns = [*, PetID, PetType, pet_age, weight]
+
+Foreign_keys = [Has_Pet.StuID = Student.StuID, Has_Pet.PetID = Pets.PetID]
+
+# Question
+Find number of pets owned by students who are older than 20.
+
+# Schema links
+Schema_links: [Student.StuID, Student.Age, Has_Pet.StuID, Has_Pet.PetID]  
+Join: Student.StuID = Has_Pet.StuID
+
+# Output format
+Reason: <brief explanation>
+Label: <EASY, NON-NESTED, or NESTED>
+Sub_questions: ["sub-question 1", "sub-question 2"] or []
+
+
+正在调用 DeepSeek：Classification……
+
+Classification 模型回答：
+Reason: The query requires joining the Student and Has_Pet tables on StuID to filter students older than 20 and count their associated PetID entries. No nested query is needed.
+Label: NON-NESTED
+Sub_questions: []
+
+解析出的分类： NON-NESTED
+
+SQL Generation Prompt：
+# Instruction
+Generate a SQLite query that answers the question.
+This question needs JOIN but does not need nested queries.
+
+Use only tables and columns from the schema.
+Use foreign keys to identify the correct JOIN conditions.
+Check whether aggregation and GROUP BY are needed.
+Return only the SQL query, without explanations or Markdown fences.
+
+# Database schema
+Table Student, columns = [*, StuID, LName, Fname, Age, Sex, Major, Advisor, city_code]
+Table Has_Pet, columns = [*, StuID, PetID]
+Table Pets, columns = [*, PetID, PetType, pet_age, weight]
+
+Foreign_keys = [Has_Pet.StuID = Student.StuID, Has_Pet.PetID = Pets.PetID]
+
+# Question
+Find number of pets owned by students who are older than 20.
+
+# Schema links
+Schema_links: [Student.StuID, Student.Age, Has_Pet.StuID, Has_Pet.PetID]  
+Join: Student.StuID = Has_Pet.StuID
+
+# SQL
+
+
+正在调用 DeepSeek：SQL Generation……
+
+模型生成的 SQL：
+SELECT COUNT(Has_Pet.PetID)
+FROM Student
+JOIN Has_Pet ON Student.StuID = Has_Pet.StuID
+WHERE Student.Age > 20;
+
+Gold SQL（仅用于核对）：
+SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.age  >  20
+
+数据库路径：
+/Users/liumingzhe/Desktop/Learning Agent/data/database/pets_1/pets_1.sqlite
+
+模型 SQL 的执行结果：
+[(0,)]
+
+Gold SQL 的执行结果：
+[(0,)]
+
+两者结果是否相同：
+True
+
+Self-Correction Prompt：
+# Instruction
+Review the SQLite query against the question and database schema.
+
+Check:
+- Tables and columns
+- JOIN conditions
+- Filters
+- Aggregation and GROUP BY
+- DISTINCT, ORDER BY, and LIMIT
+- Nested queries
+
+Fix any errors. If the query is already correct, return it unchanged.
+Return only the final SQL, without explanations or Markdown fences.
+
+# Database schema
+Table Student, columns = [*, StuID, LName, Fname, Age, Sex, Major, Advisor, city_code]
+Table Has_Pet, columns = [*, StuID, PetID]
+Table Pets, columns = [*, PetID, PetType, pet_age, weight]
+
+Foreign_keys = [Has_Pet.StuID = Student.StuID, Has_Pet.PetID = Pets.PetID]
+
+# Question
+Find number of pets owned by students who are older than 20.
+
+# SQL to review
+SELECT COUNT(Has_Pet.PetID)
+FROM Student
+JOIN Has_Pet ON Student.StuID = Has_Pet.StuID
+WHERE Student.Age > 20;
+
+# Final SQL
+
+
+正在调用 DeepSeek：Self-Correction……
+
+修正前的 SQL：
+SELECT COUNT(Has_Pet.PetID)
+FROM Student
+JOIN Has_Pet ON Student.StuID = Has_Pet.StuID
+WHERE Student.Age > 20;
+
+修正后的 SQL：
+SELECT COUNT(Has_Pet.PetID)
+FROM Student
+JOIN Has_Pet ON Student.StuID = Has_Pet.StuID
+WHERE Student.Age > 20;
+
+修正后 SQL 的执行结果：
+[(0,)]
+
+与 Gold SQL 的执行结果是否相同：
+True
+
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/sample_51.json

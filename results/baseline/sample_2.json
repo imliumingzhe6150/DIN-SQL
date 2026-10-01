@@ -1,0 +1,10 @@
+{
+  "sample_id": 2,
+  "question": "Show name, country, age for all singers ordered by age from the oldest to the youngest.",
+  "database": "concert_singer",
+  "gold_sql": "SELECT name ,  country ,  age FROM singer ORDER BY age DESC",
+  "generated_sql": "SELECT Name, Country, Age FROM singer ORDER BY Age DESC;",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

@@ -1,0 +1,10 @@
+{
+  "sample_id": 22,
+  "question": "Show the stadium name and the number of concerts in each stadium.",
+  "database": "concert_singer",
+  "gold_sql": "SELECT T2.name ,  count(*) FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id GROUP BY T1.stadium_id",
+  "generated_sql": "SELECT stadium.Name, COUNT(concert.concert_ID) AS Number_of_Concerts\nFROM stadium\nLEFT JOIN concert ON stadium.Stadium_ID = concert.Stadium_ID\nGROUP BY stadium.Stadium_ID, stadium.Name;",
+  "execution_success": true,
+  "result_match": false,
+  "error": null
+}

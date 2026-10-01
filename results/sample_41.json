@@ -1,0 +1,11 @@
+{
+  "sample_id": 41,
+  "question": "Find the name and location of the stadiums which some concerts happened in the years of both 2014 and 2015.",
+  "database": "concert_singer",
+  "schema_links": "Schema_links:  \n- `stadium.Name`\n- `stadium.Location`\n- `stadium.Stadium_ID`\n- `concert.Stadium_ID`\n- `concert.Year`\n- Join: `concert.Stadium_ID = stadium.Stadium_ID`",
+  "classification_result": "Reason: Need to join stadium with concert on Stadium_ID, then group by stadium and check that it has concerts in both 2014 and 2015. No nested queries are required.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT DISTINCT stadium.Name, stadium.Location\nFROM stadium\nJOIN concert AS c1 ON stadium.Stadium_ID = c1.Stadium_ID\nJOIN concert AS c2 ON stadium.Stadium_ID = c2.Stadium_ID\nWHERE c1.Year = 2014 AND c2.Year = 2015;",
+  "corrected_sql": "SELECT DISTINCT stadium.Name, stadium.Location\nFROM stadium\nJOIN concert AS c1 ON stadium.Stadium_ID = c1.Stadium_ID\nJOIN concert AS c2 ON stadium.Stadium_ID = c2.Stadium_ID\nWHERE c1.Year = 2014 AND c2.Year = 2015;",
+  "gold_sql": "SELECT T2.name ,  T2.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.Year  =  2014 INTERSECT SELECT T2.name ,  T2.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.Year  =  2015"
+}

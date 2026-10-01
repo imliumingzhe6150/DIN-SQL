@@ -1,0 +1,11 @@
+{
+  "sample_id": 4,
+  "question": "What is the average, minimum, and maximum age of all singers from France?",
+  "database": "concert_singer",
+  "schema_links": "singer.Age, singer.Country",
+  "classification_result": "Reason: The query only needs the singer table, filtering by Country = 'France' and applying aggregate functions to Age. No JOIN or nested query is required.\nLabel: EASY\nSub_questions: []",
+  "predicted_class": "EASY",
+  "generated_sql": "SELECT AVG(Age), MIN(Age), MAX(Age) FROM singer WHERE Country = 'France';",
+  "corrected_sql": "SELECT AVG(Age), MIN(Age), MAX(Age) FROM singer WHERE Country = 'France';",
+  "gold_sql": "SELECT avg(age) ,  min(age) ,  max(age) FROM singer WHERE country  =  'France'"
+}

@@ -1,0 +1,4 @@
+正在调用模型，直接生成 SQL……
+SELECT AVG(Age), MIN(Age), MAX(Age) FROM singer WHERE Country = 'France';
+与 Gold 结果是否匹配： True
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/baseline/sample_4.json

@@ -1,0 +1,11 @@
+{
+  "sample_id": 53,
+  "question": "Find the number of dog pets that are raised by female students (with sex F).",
+  "database": "pets_1",
+  "schema_links": "Schema_links:  \n- Student.Sex = 'F'  \n- Pets.PetType = 'dog'  \n- Student.StuID = Has_Pet.StuID  \n- Has_Pet.PetID = Pets.PetID  \n- COUNT(Pets.PetID) for dog pets",
+  "classification_result": "Reason: The query requires joining Student, Has_Pet, and Pets to link female students to their dog pets, then counting those pets. No nested subqueries are needed.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT COUNT(Pets.PetID)\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nJOIN Pets ON Has_Pet.PetID = Pets.PetID\nWHERE Student.Sex = 'F' AND Pets.PetType = 'dog';",
+  "corrected_sql": "SELECT COUNT(DISTINCT Pets.PetID)\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nJOIN Pets ON Has_Pet.PetID = Pets.PetID\nWHERE Student.Sex = 'F' AND Pets.PetType = 'dog';",
+  "gold_sql": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T2.petid  =  T3.petid WHERE T1.sex  =  'F' AND T3.pettype  =  'dog'"
+}

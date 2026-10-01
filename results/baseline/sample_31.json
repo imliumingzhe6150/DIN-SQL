@@ -1,0 +1,10 @@
+{
+  "sample_id": 31,
+  "question": "Show names for all stadiums except for stadiums having a concert in year 2014.",
+  "database": "concert_singer",
+  "gold_sql": "SELECT name FROM stadium EXCEPT SELECT T2.name FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  =  2014",
+  "generated_sql": "SELECT Name FROM stadium WHERE Stadium_ID NOT IN (SELECT Stadium_ID FROM concert WHERE Year = 2014);",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

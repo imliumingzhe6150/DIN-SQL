@@ -1,0 +1,10 @@
+{
+  "sample_id": 10,
+  "question": "Show all countries and the number of singers in each country.",
+  "database": "concert_singer",
+  "gold_sql": "SELECT country ,  count(*) FROM singer GROUP BY country",
+  "generated_sql": "SELECT Country, COUNT(*) AS Number_of_Singers FROM singer GROUP BY Country;",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

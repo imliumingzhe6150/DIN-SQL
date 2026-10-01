@@ -1,0 +1,10 @@
+{
+  "sample_id": 12,
+  "question": "List all song names by singers above the average age.",
+  "database": "concert_singer",
+  "gold_sql": "SELECT song_name FROM singer WHERE age  >  (SELECT avg(age) FROM singer)",
+  "generated_sql": "SELECT Song_Name FROM singer WHERE Age > (SELECT AVG(Age) FROM singer);",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

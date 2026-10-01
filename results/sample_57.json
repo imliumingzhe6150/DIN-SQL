@@ -1,0 +1,11 @@
+{
+  "sample_id": 57,
+  "question": "Find the first name of students who have cat or dog pet.",
+  "database": "pets_1",
+  "schema_links": "Schema_links: [Student.Fname, Student.StuID = Has_Pet.StuID, Has_Pet.PetID = Pets.PetID, Pets.PetType]",
+  "classification_result": "Reason: The query requires joining Student, Has_Pet, and Pets to find students whose pets are cats or dogs. No nested subquery is necessary.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT DISTINCT Student.Fname\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nJOIN Pets ON Has_Pet.PetID = Pets.PetID\nWHERE Pets.PetType IN ('cat', 'dog');",
+  "corrected_sql": "SELECT DISTINCT Student.Fname\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nJOIN Pets ON Has_Pet.PetID = Pets.PetID\nWHERE Pets.PetType IN ('cat', 'dog');",
+  "gold_sql": "SELECT DISTINCT T1.Fname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat' OR T3.pettype  =  'dog'"
+}

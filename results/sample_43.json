@@ -1,0 +1,11 @@
+{
+  "sample_id": 43,
+  "question": "Find the number of concerts happened in the stadium with the highest capacity .",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: [stadium.Stadium_ID, stadium.Capacity, concert.Stadium_ID, concert.concert_ID]",
+  "classification_result": "Reason: The query requires finding the stadium with the highest capacity first, then counting concerts in that stadium, which naturally uses a nested subquery.\nLabel: NESTED\nSub_questions: [\"Find the Stadium_ID of the stadium with the highest capacity\", \"Count the number of concerts in that stadium\"]",
+  "predicted_class": "NESTED",
+  "generated_sql": "SELECT COUNT(*) FROM concert WHERE Stadium_ID = (SELECT Stadium_ID FROM stadium ORDER BY Capacity DESC LIMIT 1);",
+  "corrected_sql": "SELECT COUNT(*) FROM concert WHERE Stadium_ID = (SELECT Stadium_ID FROM stadium ORDER BY Capacity DESC LIMIT 1);",
+  "gold_sql": "select count(*) from concert where stadium_id = (select stadium_id from stadium order by capacity desc limit 1)"
+}

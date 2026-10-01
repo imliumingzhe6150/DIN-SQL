@@ -1,0 +1,179 @@
+======================================================================
+即将交给 Schema Linking 模型的 Prompt
+======================================================================
+# Instruction
+Find the schema links needed to generate a SQL query for the following question.
+
+# Database schema
+Table stadium, columns = [*, Stadium_ID, Location, Name, Capacity, Highest, Lowest, Average]
+Table singer, columns = [*, Singer_ID, Name, Country, Song_Name, Song_release_year, Age, Is_male]
+Table concert, columns = [*, concert_ID, concert_Name, Theme, Stadium_ID, Year]
+Table singer_in_concert, columns = [*, concert_ID, Singer_ID]
+
+Foreign_keys = [concert.Stadium_ID = stadium.Stadium_ID, singer_in_concert.Singer_ID = singer.Singer_ID, singer_in_concert.concert_ID = concert.concert_ID]
+
+# Question
+Show the stadium names without any concert.
+
+# Answer
+Schema_links:
+
+======================================================================
+调试信息——不属于 Prompt
+======================================================================
+db_id: concert_singer
+Gold SQL: SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert)
+
+正在调用 DeepSeek：Schema Linking……
+
+Schema Linking 模型回答：
+Schema_links: stadium.Name, stadium.Stadium_ID, concert.Stadium_ID, concert.concert_ID
+
+即将交给 Classification 模型的 Prompt：
+# Instruction
+Classify the SQL query needed to answer the question.
+
+Rules:
+- If nested queries are needed, choose NESTED.
+- If JOIN is needed but nested queries are not, choose NON-NESTED.
+- If neither JOIN nor nested queries are needed, choose EASY.
+
+If the label is NESTED, list the sub-questions needed to solve it.
+Write Sub_questions as a JSON array of strings, using double quotes.
+For other labels, write Sub_questions: [].
+
+# Database schema
+Table stadium, columns = [*, Stadium_ID, Location, Name, Capacity, Highest, Lowest, Average]
+Table singer, columns = [*, Singer_ID, Name, Country, Song_Name, Song_release_year, Age, Is_male]
+Table concert, columns = [*, concert_ID, concert_Name, Theme, Stadium_ID, Year]
+Table singer_in_concert, columns = [*, concert_ID, Singer_ID]
+
+Foreign_keys = [concert.Stadium_ID = stadium.Stadium_ID, singer_in_concert.Singer_ID = singer.Singer_ID, singer_in_concert.concert_ID = concert.concert_ID]
+
+# Question
+Show the stadium names without any concert.
+
+# Schema links
+Schema_links: stadium.Name, stadium.Stadium_ID, concert.Stadium_ID, concert.concert_ID
+
+# Output format
+Reason: <brief explanation>
+Label: <EASY, NON-NESTED, or NESTED>
+Sub_questions: ["sub-question 1", "sub-question 2"] or []
+
+
+正在调用 DeepSeek：Classification……
+
+Classification 模型回答：
+Reason: To find stadium names with no concerts, we can use a LEFT JOIN between stadium and concert and filter rows where concert.concert_ID is NULL. This requires a JOIN but no nested query.
+Label: NON-NESTED
+Sub_questions: []
+
+解析出的分类： NON-NESTED
+
+SQL Generation Prompt：
+# Instruction
+Generate a SQLite query that answers the question.
+This question needs JOIN but does not need nested queries.
+
+Use only tables and columns from the schema.
+Use foreign keys to identify the correct JOIN conditions.
+Check whether aggregation and GROUP BY are needed.
+Return only the SQL query, without explanations or Markdown fences.
+
+# Database schema
+Table stadium, columns = [*, Stadium_ID, Location, Name, Capacity, Highest, Lowest, Average]
+Table singer, columns = [*, Singer_ID, Name, Country, Song_Name, Song_release_year, Age, Is_male]
+Table concert, columns = [*, concert_ID, concert_Name, Theme, Stadium_ID, Year]
+Table singer_in_concert, columns = [*, concert_ID, Singer_ID]
+
+Foreign_keys = [concert.Stadium_ID = stadium.Stadium_ID, singer_in_concert.Singer_ID = singer.Singer_ID, singer_in_concert.concert_ID = concert.concert_ID]
+
+# Question
+Show the stadium names without any concert.
+
+# Schema links
+Schema_links: stadium.Name, stadium.Stadium_ID, concert.Stadium_ID, concert.concert_ID
+
+# SQL
+
+
+正在调用 DeepSeek：SQL Generation……
+
+模型生成的 SQL：
+SELECT stadium.Name
+FROM stadium
+LEFT JOIN concert ON stadium.Stadium_ID = concert.Stadium_ID
+WHERE concert.concert_ID IS NULL;
+
+Gold SQL（仅用于核对）：
+SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert)
+
+数据库路径：
+/Users/liumingzhe/Desktop/Learning Agent/data/database/concert_singer/concert_singer.sqlite
+
+模型 SQL 的执行结果：
+[('Bayview Stadium',), ('Hampden Park',), ('Forthbank Stadium',), ('Gayfield Park',)]
+
+Gold SQL 的执行结果：
+[('Bayview Stadium',), ('Hampden Park',), ('Forthbank Stadium',), ('Gayfield Park',)]
+
+两者结果是否相同：
+True
+
+Self-Correction Prompt：
+# Instruction
+Review the SQLite query against the question and database schema.
+
+Check:
+- Tables and columns
+- JOIN conditions
+- Filters
+- Aggregation and GROUP BY
+- DISTINCT, ORDER BY, and LIMIT
+- Nested queries
+
+Fix any errors. If the query is already correct, return it unchanged.
+Return only the final SQL, without explanations or Markdown fences.
+
+# Database schema
+Table stadium, columns = [*, Stadium_ID, Location, Name, Capacity, Highest, Lowest, Average]
+Table singer, columns = [*, Singer_ID, Name, Country, Song_Name, Song_release_year, Age, Is_male]
+Table concert, columns = [*, concert_ID, concert_Name, Theme, Stadium_ID, Year]
+Table singer_in_concert, columns = [*, concert_ID, Singer_ID]
+
+Foreign_keys = [concert.Stadium_ID = stadium.Stadium_ID, singer_in_concert.Singer_ID = singer.Singer_ID, singer_in_concert.concert_ID = concert.concert_ID]
+
+# Question
+Show the stadium names without any concert.
+
+# SQL to review
+SELECT stadium.Name
+FROM stadium
+LEFT JOIN concert ON stadium.Stadium_ID = concert.Stadium_ID
+WHERE concert.concert_ID IS NULL;
+
+# Final SQL
+
+
+正在调用 DeepSeek：Self-Correction……
+
+修正前的 SQL：
+SELECT stadium.Name
+FROM stadium
+LEFT JOIN concert ON stadium.Stadium_ID = concert.Stadium_ID
+WHERE concert.concert_ID IS NULL;
+
+修正后的 SQL：
+SELECT stadium.Name
+FROM stadium
+LEFT JOIN concert ON stadium.Stadium_ID = concert.Stadium_ID
+WHERE concert.concert_ID IS NULL;
+
+修正后 SQL 的执行结果：
+[('Bayview Stadium',), ('Hampden Park',), ('Forthbank Stadium',), ('Gayfield Park',)]
+
+与 Gold SQL 的执行结果是否相同：
+True
+
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/sample_28.json

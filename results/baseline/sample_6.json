@@ -1,0 +1,10 @@
+{
+  "sample_id": 6,
+  "question": "Show the name and the release year of the song by the youngest singer.",
+  "database": "concert_singer",
+  "gold_sql": "SELECT song_name ,  song_release_year FROM singer ORDER BY age LIMIT 1",
+  "generated_sql": "SELECT Song_Name, Song_release_year FROM singer WHERE Age = (SELECT MIN(Age) FROM singer)",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

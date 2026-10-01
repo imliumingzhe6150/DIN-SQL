@@ -1,0 +1,10 @@
+{
+  "sample_id": 30,
+  "question": "Show countries where a singer above age 40 and a singer below 30 are from.",
+  "database": "concert_singer",
+  "gold_sql": "SELECT country FROM singer WHERE age  >  40 INTERSECT SELECT country FROM singer WHERE age  <  30",
+  "generated_sql": "SELECT Country FROM singer WHERE Age > 40\nINTERSECT\nSELECT Country FROM singer WHERE Age < 30;",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

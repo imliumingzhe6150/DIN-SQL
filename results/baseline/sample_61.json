@@ -1,0 +1,10 @@
+{
+  "sample_id": 61,
+  "question": "Find the major and age of students who do not have a cat pet.",
+  "database": "pets_1",
+  "gold_sql": "SELECT major ,  age FROM student WHERE stuid NOT IN (SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat')",
+  "generated_sql": "SELECT Student.Major, Student.Age\nFROM Student\nWHERE NOT EXISTS (\n    SELECT 1\n    FROM Has_Pet\n    JOIN Pets ON Has_Pet.PetID = Pets.PetID\n    WHERE Has_Pet.StuID = Student.StuID\n      AND LOWER(Pets.PetType) = 'cat'\n);",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

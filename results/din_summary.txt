@@ -1,0 +1,27 @@
+
+EASY，计划样本数：10
+预测类别与预设分组一致：9/10
+generated_sql：执行成功 10/10，结果匹配 10/10
+corrected_sql：执行成功 10/10，结果匹配 10/10
+
+样本 22，generated_sql：与 Gold 不匹配
+样本 22，corrected_sql：与 Gold 不匹配
+样本 35，generated_sql：与 Gold 不匹配
+样本 35，corrected_sql：与 Gold 不匹配
+
+NON-NESTED，计划样本数：10
+预测类别与预设分组一致：10/10
+generated_sql：执行成功 10/10，结果匹配 8/10
+corrected_sql：执行成功 10/10，结果匹配 8/10
+
+样本 65，generated_sql：与 Gold 不匹配
+样本 65，corrected_sql：与 Gold 不匹配
+
+NESTED，计划样本数：10
+预测类别与预设分组一致：5/10
+generated_sql：执行成功 10/10，结果匹配 9/10
+corrected_sql：执行成功 10/10，结果匹配 9/10
+
+总计，计划样本数：30
+generated_sql：执行成功 30/30 (100.0%)，结果匹配 27/30 (90.0%)
+corrected_sql：执行成功 30/30 (100.0%)，结果匹配 27/30 (90.0%)

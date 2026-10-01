@@ -1,0 +1,11 @@
+{
+  "sample_id": 6,
+  "question": "Show the name and the release year of the song by the youngest singer.",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: `singer.Song_Name`, `singer.Song_release_year`, `singer.Age`",
+  "classification_result": "Reason: To identify the youngest singer, we need to find the minimum age among all singers, then retrieve the song name and release year for the singer(s) with that age. This requires a nested subquery.\nLabel: NESTED\nSub_questions: [\"What is the minimum age of a singer?\", \"What are the song name and release year for the singer(s) with that age?\"]",
+  "predicted_class": "NESTED",
+  "generated_sql": "SELECT Song_Name, Song_release_year\nFROM singer\nWHERE Age = (SELECT MIN(Age) FROM singer);",
+  "corrected_sql": "SELECT Song_Name, Song_release_year\nFROM singer\nWHERE Age = (SELECT MIN(Age) FROM singer);",
+  "gold_sql": "SELECT song_name ,  song_release_year FROM singer ORDER BY age LIMIT 1"
+}

@@ -1,0 +1,11 @@
+{
+  "sample_id": 85,
+  "question": "Find the average age of students who do not have any pet .",
+  "database": "pets_1",
+  "schema_links": "Schema_links: [Student.Age, Student.StuID, Has_Pet.StuID, Student.StuID = Has_Pet.StuID]",
+  "classification_result": "Reason: Use a LEFT JOIN between Student and Has_Pet to find students with no matching pet record, then compute AVG(Student.Age). No nested query is required.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT AVG(Student.Age)\nFROM Student\nLEFT JOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nWHERE Has_Pet.StuID IS NULL;",
+  "corrected_sql": "SELECT AVG(Student.Age)\nFROM Student\nLEFT JOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nWHERE Has_Pet.StuID IS NULL;",
+  "gold_sql": "select avg(age) from student where stuid not in (select stuid from has_pet)"
+}

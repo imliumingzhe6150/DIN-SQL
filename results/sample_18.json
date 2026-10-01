@@ -1,0 +1,11 @@
+{
+  "sample_id": 18,
+  "question": "What is the name and capacity for the stadium with highest average attendance?",
+  "database": "concert_singer",
+  "schema_links": "stadium.Name, stadium.Capacity, stadium.Average",
+  "classification_result": "Reason: The required data is all in the `stadium` table. We can retrieve the stadium with the highest `Average` by sorting on `Average` descending and limiting to one row, so no JOIN or nested query is needed.\nLabel: EASY\nSub_questions: []",
+  "predicted_class": "EASY",
+  "generated_sql": "SELECT Name, Capacity FROM stadium ORDER BY Average DESC LIMIT 1;",
+  "corrected_sql": "SELECT Name, Capacity FROM stadium ORDER BY Average DESC LIMIT 1;",
+  "gold_sql": "SELECT name ,  capacity FROM stadium ORDER BY average DESC LIMIT 1"
+}

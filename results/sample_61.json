@@ -1,0 +1,11 @@
+{
+  "sample_id": 61,
+  "question": "Find the major and age of students who do not have a cat pet.",
+  "database": "pets_1",
+  "schema_links": "Schema_links: Student.Major, Student.Age, Student.StuID, Has_Pet.StuID, Has_Pet.PetID, Pets.PetID, Pets.PetType",
+  "classification_result": "Reason: The query requires identifying students who have a cat and then excluding them from the Student table, which necessitates a nested query such as NOT IN or NOT EXISTS.\nLabel: NESTED\nSub_questions: [\"Find the StuID of students who have a cat pet.\", \"Find the major and age of students whose StuID is not in the set of students who have a cat pet.\"]",
+  "predicted_class": "NESTED",
+  "generated_sql": "SELECT Student.Major, Student.Age\nFROM Student\nWHERE Student.StuID NOT IN (\n    SELECT Has_Pet.StuID\n    FROM Has_Pet\n    JOIN Pets ON Has_Pet.PetID = Pets.PetID\n    WHERE Pets.PetType = 'cat'\n);",
+  "corrected_sql": "SELECT Student.Major, Student.Age\nFROM Student\nWHERE Student.StuID NOT IN (\n    SELECT Has_Pet.StuID\n    FROM Has_Pet\n    JOIN Pets ON Has_Pet.PetID = Pets.PetID\n    WHERE Pets.PetType = 'cat'\n);",
+  "gold_sql": "SELECT major ,  age FROM student WHERE stuid NOT IN (SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat')"
+}

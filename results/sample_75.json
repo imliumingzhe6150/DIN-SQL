@@ -1,0 +1,11 @@
+{
+  "sample_id": 75,
+  "question": "Find the first name and age of students who have a pet.",
+  "database": "pets_1",
+  "schema_links": "Schema_links: Student.Fname, Student.Age, Student.StuID, Has_Pet.StuID, Student.StuID = Has_Pet.StuID",
+  "classification_result": "Reason: Requires joining Student and Has_Pet to identify students who have a pet, then selecting Fname and Age.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT DISTINCT Student.Fname, Student.Age\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID;",
+  "corrected_sql": "SELECT DISTINCT Student.Fname, Student.Age\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID;",
+  "gold_sql": "SELECT DISTINCT T1.fname ,  T1.age FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid"
+}

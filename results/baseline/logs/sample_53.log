@@ -1,0 +1,8 @@
+正在调用模型，直接生成 SQL……
+SELECT COUNT(DISTINCT p.PetID)
+FROM Student s
+JOIN Has_Pet hp ON s.StuID = hp.StuID
+JOIN Pets p ON hp.PetID = p.PetID
+WHERE s.Sex = 'F' AND p.PetType = 'Dog';
+与 Gold 结果是否匹配： False
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/baseline/sample_53.json

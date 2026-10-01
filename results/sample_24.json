@@ -1,0 +1,11 @@
+{
+  "sample_id": 24,
+  "question": "Show the stadium name and capacity with most number of concerts in year 2014 or after.",
+  "database": "concert_singer",
+  "schema_links": "concert.Stadium_ID = stadium.Stadium_ID, stadium.Name, stadium.Capacity, concert.Year",
+  "classification_result": "Reason: The query requires joining the stadium and concert tables, filtering concerts from 2014 onward, grouping by stadium, and selecting the stadium with the highest concert count. No nested subquery is necessary.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT stadium.Name, stadium.Capacity\nFROM stadium\nJOIN concert ON stadium.Stadium_ID = concert.Stadium_ID\nWHERE concert.Year >= 2014\nGROUP BY stadium.Stadium_ID, stadium.Name, stadium.Capacity\nORDER BY COUNT(concert.concert_ID) DESC\nLIMIT 1;",
+  "corrected_sql": "SELECT stadium.Name, stadium.Capacity\nFROM stadium\nJOIN concert ON stadium.Stadium_ID = concert.Stadium_ID\nWHERE concert.Year >= 2014\nGROUP BY stadium.Stadium_ID, stadium.Name, stadium.Capacity\nORDER BY COUNT(concert.concert_ID) DESC\nLIMIT 1;",
+  "gold_sql": "SELECT T2.name ,  T2.capacity FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  >=  2014 GROUP BY T2.stadium_id ORDER BY count(*) DESC LIMIT 1"
+}

@@ -1,0 +1,11 @@
+{
+  "sample_id": 28,
+  "question": "Show the stadium names without any concert.",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: stadium.Name, stadium.Stadium_ID, concert.Stadium_ID, concert.concert_ID",
+  "classification_result": "Reason: To find stadium names with no concerts, we can use a LEFT JOIN between stadium and concert and filter rows where concert.concert_ID is NULL. This requires a JOIN but no nested query.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT stadium.Name\nFROM stadium\nLEFT JOIN concert ON stadium.Stadium_ID = concert.Stadium_ID\nWHERE concert.concert_ID IS NULL;",
+  "corrected_sql": "SELECT stadium.Name\nFROM stadium\nLEFT JOIN concert ON stadium.Stadium_ID = concert.Stadium_ID\nWHERE concert.concert_ID IS NULL;",
+  "gold_sql": "SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert)"
+}

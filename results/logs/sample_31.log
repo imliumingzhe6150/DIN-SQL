@@ -1,0 +1,182 @@
+======================================================================
+即将交给 Schema Linking 模型的 Prompt
+======================================================================
+# Instruction
+Find the schema links needed to generate a SQL query for the following question.
+
+# Database schema
+Table stadium, columns = [*, Stadium_ID, Location, Name, Capacity, Highest, Lowest, Average]
+Table singer, columns = [*, Singer_ID, Name, Country, Song_Name, Song_release_year, Age, Is_male]
+Table concert, columns = [*, concert_ID, concert_Name, Theme, Stadium_ID, Year]
+Table singer_in_concert, columns = [*, concert_ID, Singer_ID]
+
+Foreign_keys = [concert.Stadium_ID = stadium.Stadium_ID, singer_in_concert.Singer_ID = singer.Singer_ID, singer_in_concert.concert_ID = concert.concert_ID]
+
+# Question
+Show names for all stadiums except for stadiums having a concert in year 2014.
+
+# Answer
+Schema_links:
+
+======================================================================
+调试信息——不属于 Prompt
+======================================================================
+db_id: concert_singer
+Gold SQL: SELECT name FROM stadium EXCEPT SELECT T2.name FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  =  2014
+
+正在调用 DeepSeek：Schema Linking……
+
+Schema Linking 模型回答：
+Schema_links: [stadium.Name, stadium.Stadium_ID, concert.Stadium_ID, concert.Year, concert.Stadium_ID = stadium.Stadium_ID]
+
+即将交给 Classification 模型的 Prompt：
+# Instruction
+Classify the SQL query needed to answer the question.
+
+Rules:
+- If nested queries are needed, choose NESTED.
+- If JOIN is needed but nested queries are not, choose NON-NESTED.
+- If neither JOIN nor nested queries are needed, choose EASY.
+
+If the label is NESTED, list the sub-questions needed to solve it.
+Write Sub_questions as a JSON array of strings, using double quotes.
+For other labels, write Sub_questions: [].
+
+# Database schema
+Table stadium, columns = [*, Stadium_ID, Location, Name, Capacity, Highest, Lowest, Average]
+Table singer, columns = [*, Singer_ID, Name, Country, Song_Name, Song_release_year, Age, Is_male]
+Table concert, columns = [*, concert_ID, concert_Name, Theme, Stadium_ID, Year]
+Table singer_in_concert, columns = [*, concert_ID, Singer_ID]
+
+Foreign_keys = [concert.Stadium_ID = stadium.Stadium_ID, singer_in_concert.Singer_ID = singer.Singer_ID, singer_in_concert.concert_ID = concert.concert_ID]
+
+# Question
+Show names for all stadiums except for stadiums having a concert in year 2014.
+
+# Schema links
+Schema_links: [stadium.Name, stadium.Stadium_ID, concert.Stadium_ID, concert.Year, concert.Stadium_ID = stadium.Stadium_ID]
+
+# Output format
+Reason: <brief explanation>
+Label: <EASY, NON-NESTED, or NESTED>
+Sub_questions: ["sub-question 1", "sub-question 2"] or []
+
+
+正在调用 DeepSeek：Classification……
+
+Classification 模型回答：
+Reason: The query needs to exclude stadiums that had a concert in 2014, which is typically done using a subquery such as NOT IN to identify those stadiums first.
+Label: NESTED
+Sub_questions: ["Find Stadium_IDs of stadiums that have a concert in year 2014.", "Find names of stadiums whose Stadium_ID is not in the list of stadiums from the first sub-question."]
+
+解析出的分类： NESTED
+
+分解出的子问题：
+[
+  "Find Stadium_IDs of stadiums that have a concert in year 2014.",
+  "Find names of stadiums whose Stadium_ID is not in the list of stadiums from the first sub-question."
+]
+
+SQL Generation Prompt：
+# Instruction
+Generate a SQLite query that answers the original question.
+This question requires nested queries or set operations.
+
+Use the sub-questions to work out the inner queries, then combine them
+into one SQL statement answering the original question.
+Use only tables and columns from the schema.
+Use foreign keys when JOIN is needed.
+Check aggregation, NULL behavior, and the relationship between inner
+and outer queries. Use set operations only when the question needs them.
+Return only the final SQL, without explanations or Markdown fences.
+
+# Database schema
+Table stadium, columns = [*, Stadium_ID, Location, Name, Capacity, Highest, Lowest, Average]
+Table singer, columns = [*, Singer_ID, Name, Country, Song_Name, Song_release_year, Age, Is_male]
+Table concert, columns = [*, concert_ID, concert_Name, Theme, Stadium_ID, Year]
+Table singer_in_concert, columns = [*, concert_ID, Singer_ID]
+
+Foreign_keys = [concert.Stadium_ID = stadium.Stadium_ID, singer_in_concert.Singer_ID = singer.Singer_ID, singer_in_concert.concert_ID = concert.concert_ID]
+
+# Original question
+Show names for all stadiums except for stadiums having a concert in year 2014.
+
+# Schema links
+Schema_links: [stadium.Name, stadium.Stadium_ID, concert.Stadium_ID, concert.Year, concert.Stadium_ID = stadium.Stadium_ID]
+
+# Sub-questions
+[
+  "Find Stadium_IDs of stadiums that have a concert in year 2014.",
+  "Find names of stadiums whose Stadium_ID is not in the list of stadiums from the first sub-question."
+]
+
+# SQL
+
+
+正在调用 DeepSeek：SQL Generation……
+
+模型生成的 SQL：
+SELECT Name FROM stadium WHERE Stadium_ID NOT IN (SELECT Stadium_ID FROM concert WHERE Year = 2014);
+
+Gold SQL（仅用于核对）：
+SELECT name FROM stadium EXCEPT SELECT T2.name FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  =  2014
+
+数据库路径：
+/Users/liumingzhe/Desktop/Learning Agent/data/database/concert_singer/concert_singer.sqlite
+
+模型 SQL 的执行结果：
+[('Bayview Stadium',), ('Hampden Park',), ('Forthbank Stadium',), ('Gayfield Park',), ('Recreation Park',), ('Balmoor',)]
+
+Gold SQL 的执行结果：
+[('Balmoor',), ('Bayview Stadium',), ('Forthbank Stadium',), ('Gayfield Park',), ('Hampden Park',), ('Recreation Park',)]
+
+两者结果是否相同：
+False
+
+Self-Correction Prompt：
+# Instruction
+Review the SQLite query against the question and database schema.
+
+Check:
+- Tables and columns
+- JOIN conditions
+- Filters
+- Aggregation and GROUP BY
+- DISTINCT, ORDER BY, and LIMIT
+- Nested queries
+
+Fix any errors. If the query is already correct, return it unchanged.
+Return only the final SQL, without explanations or Markdown fences.
+
+# Database schema
+Table stadium, columns = [*, Stadium_ID, Location, Name, Capacity, Highest, Lowest, Average]
+Table singer, columns = [*, Singer_ID, Name, Country, Song_Name, Song_release_year, Age, Is_male]
+Table concert, columns = [*, concert_ID, concert_Name, Theme, Stadium_ID, Year]
+Table singer_in_concert, columns = [*, concert_ID, Singer_ID]
+
+Foreign_keys = [concert.Stadium_ID = stadium.Stadium_ID, singer_in_concert.Singer_ID = singer.Singer_ID, singer_in_concert.concert_ID = concert.concert_ID]
+
+# Question
+Show names for all stadiums except for stadiums having a concert in year 2014.
+
+# SQL to review
+SELECT Name FROM stadium WHERE Stadium_ID NOT IN (SELECT Stadium_ID FROM concert WHERE Year = 2014);
+
+# Final SQL
+
+
+正在调用 DeepSeek：Self-Correction……
+
+修正前的 SQL：
+SELECT Name FROM stadium WHERE Stadium_ID NOT IN (SELECT Stadium_ID FROM concert WHERE Year = 2014);
+
+修正后的 SQL：
+SELECT Name FROM stadium WHERE Stadium_ID NOT IN (SELECT Stadium_ID FROM concert WHERE Year = 2014);
+
+修正后 SQL 的执行结果：
+[('Bayview Stadium',), ('Hampden Park',), ('Forthbank Stadium',), ('Gayfield Park',), ('Recreation Park',), ('Balmoor',)]
+
+与 Gold SQL 的执行结果是否相同：
+False
+
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/sample_31.json

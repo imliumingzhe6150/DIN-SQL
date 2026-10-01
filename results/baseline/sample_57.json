@@ -1,0 +1,10 @@
+{
+  "sample_id": 57,
+  "question": "Find the first name of students who have cat or dog pet.",
+  "database": "pets_1",
+  "gold_sql": "SELECT DISTINCT T1.Fname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat' OR T3.pettype  =  'dog'",
+  "generated_sql": "SELECT DISTINCT Student.Fname\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nJOIN Pets ON Has_Pet.PetID = Pets.PetID\nWHERE Pets.PetType IN ('cat', 'dog');",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

@@ -1,0 +1,11 @@
+{
+  "sample_id": 10,
+  "question": "Show all countries and the number of singers in each country.",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: singer.Country, singer.Singer_ID",
+  "classification_result": "Reason: The question only requires grouping the `singer` table by `Country` and counting `Singer_ID`, so no JOIN or nested query is needed.\nLabel: EASY\nSub_questions: []",
+  "predicted_class": "EASY",
+  "generated_sql": "SELECT Country, COUNT(Singer_ID) FROM singer GROUP BY Country;",
+  "corrected_sql": "SELECT Country, COUNT(Singer_ID) FROM singer GROUP BY Country;",
+  "gold_sql": "SELECT country ,  count(*) FROM singer GROUP BY country"
+}

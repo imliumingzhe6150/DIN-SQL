@@ -1,0 +1,11 @@
+{
+  "sample_id": 14,
+  "question": "Show location and name for all stadiums with a capacity between 5000 and 10000.",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: [stadium.Location, stadium.Name, stadium.Capacity]",
+  "classification_result": "Reason: The query only requires selecting columns from the single `stadium` table with a simple `WHERE` condition on `Capacity`. No JOIN or nested query is needed.\nLabel: EASY\nSub_questions: []",
+  "predicted_class": "EASY",
+  "generated_sql": "SELECT Location, Name FROM stadium WHERE Capacity BETWEEN 5000 AND 10000;",
+  "corrected_sql": "SELECT Location, Name FROM stadium WHERE Capacity BETWEEN 5000 AND 10000;",
+  "gold_sql": "SELECT LOCATION ,  name FROM stadium WHERE capacity BETWEEN 5000 AND 10000"
+}

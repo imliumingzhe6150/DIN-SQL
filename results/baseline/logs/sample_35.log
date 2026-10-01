@@ -1,0 +1,7 @@
+正在调用模型，直接生成 SQL……
+SELECT singer.Name, COUNT(singer_in_concert.concert_ID) AS number_of_concerts
+FROM singer
+LEFT JOIN singer_in_concert ON singer.Singer_ID = singer_in_concert.Singer_ID
+GROUP BY singer.Singer_ID, singer.Name;
+与 Gold 结果是否匹配： False
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/baseline/sample_35.json

@@ -1,0 +1,11 @@
+{
+  "sample_id": 31,
+  "question": "Show names for all stadiums except for stadiums having a concert in year 2014.",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: [stadium.Name, stadium.Stadium_ID, concert.Stadium_ID, concert.Year, concert.Stadium_ID = stadium.Stadium_ID]",
+  "classification_result": "Reason: The query needs to exclude stadiums that had a concert in 2014, which is typically done using a subquery such as NOT IN to identify those stadiums first.\nLabel: NESTED\nSub_questions: [\"Find Stadium_IDs of stadiums that have a concert in year 2014.\", \"Find names of stadiums whose Stadium_ID is not in the list of stadiums from the first sub-question.\"]",
+  "predicted_class": "NESTED",
+  "generated_sql": "SELECT Name FROM stadium WHERE Stadium_ID NOT IN (SELECT Stadium_ID FROM concert WHERE Year = 2014);",
+  "corrected_sql": "SELECT Name FROM stadium WHERE Stadium_ID NOT IN (SELECT Stadium_ID FROM concert WHERE Year = 2014);",
+  "gold_sql": "SELECT name FROM stadium EXCEPT SELECT T2.name FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  =  2014"
+}

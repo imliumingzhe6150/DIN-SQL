@@ -1,0 +1,10 @@
+{
+  "sample_id": 81,
+  "question": "Find the first name and gender of student who have more than one pet.",
+  "database": "pets_1",
+  "gold_sql": "SELECT T1.fname ,  T1.sex FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid GROUP BY T1.stuid HAVING count(*)  >  1",
+  "generated_sql": "SELECT S.Fname, S.Sex\nFROM Student S\nJOIN Has_Pet HP ON S.StuID = HP.StuID\nGROUP BY S.StuID, S.Fname, S.Sex\nHAVING COUNT(HP.PetID) > 1;",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

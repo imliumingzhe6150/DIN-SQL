@@ -1,0 +1,10 @@
+{
+  "sample_id": 53,
+  "question": "Find the number of dog pets that are raised by female students (with sex F).",
+  "database": "pets_1",
+  "gold_sql": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T2.petid  =  T3.petid WHERE T1.sex  =  'F' AND T3.pettype  =  'dog'",
+  "generated_sql": "SELECT COUNT(DISTINCT p.PetID)\nFROM Student s\nJOIN Has_Pet hp ON s.StuID = hp.StuID\nJOIN Pets p ON hp.PetID = p.PetID\nWHERE s.Sex = 'F' AND p.PetType = 'Dog';",
+  "execution_success": true,
+  "result_match": false,
+  "error": null
+}

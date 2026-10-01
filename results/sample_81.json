@@ -1,0 +1,11 @@
+{
+  "sample_id": 81,
+  "question": "Find the first name and gender of student who have more than one pet.",
+  "database": "pets_1",
+  "schema_links": "Schema_links: [Student.Fname, Student.Sex, Student.StuID, Has_Pet.StuID, Has_Pet.PetID]",
+  "classification_result": "Reason: The query requires joining Student and Has_Pet to count pets per student, then filtering students with more than one pet. No nested subquery is required.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT Student.Fname, Student.Sex\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nGROUP BY Student.StuID, Student.Fname, Student.Sex\nHAVING COUNT(Has_Pet.PetID) > 1;",
+  "corrected_sql": "SELECT Student.Fname, Student.Sex\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nGROUP BY Student.StuID, Student.Fname, Student.Sex\nHAVING COUNT(Has_Pet.PetID) > 1;",
+  "gold_sql": "SELECT T1.fname ,  T1.sex FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid GROUP BY T1.stuid HAVING count(*)  >  1"
+}

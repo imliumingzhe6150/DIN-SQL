@@ -1,0 +1,4 @@
+正在调用模型，直接生成 SQL……
+SELECT Location, Name FROM stadium WHERE Capacity BETWEEN 5000 AND 10000;
+与 Gold 结果是否匹配： True
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/baseline/sample_14.json

@@ -1,0 +1,11 @@
+{
+  "sample_id": 51,
+  "question": "Find number of pets owned by students who are older than 20.",
+  "database": "pets_1",
+  "schema_links": "Schema_links: [Student.StuID, Student.Age, Has_Pet.StuID, Has_Pet.PetID]  \nJoin: Student.StuID = Has_Pet.StuID",
+  "classification_result": "Reason: The query requires joining the Student and Has_Pet tables on StuID to filter students older than 20 and count their associated PetID entries. No nested query is needed.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT COUNT(Has_Pet.PetID)\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nWHERE Student.Age > 20;",
+  "corrected_sql": "SELECT COUNT(Has_Pet.PetID)\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nWHERE Student.Age > 20;",
+  "gold_sql": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.age  >  20"
+}

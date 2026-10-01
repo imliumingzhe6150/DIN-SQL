@@ -1,0 +1,10 @@
+正在调用模型，直接生成 SQL……
+SELECT AVG(S.Age)
+FROM Student AS S
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Has_Pet AS H
+    WHERE H.StuID = S.StuID
+);
+与 Gold 结果是否匹配： True
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/baseline/sample_85.json

@@ -1,0 +1,11 @@
+{
+  "sample_id": 59,
+  "question": "Find the first name of students who have both cat and dog pets .",
+  "database": "pets_1",
+  "schema_links": "Schema_links:  \n- Student.Fname  \n- Student.StuID  \n- Has_Pet.StuID  \n- Has_Pet.PetID  \n- Pets.PetID  \n- Pets.PetType  \n\nForeign keys:  \n- Student.StuID = Has_Pet.StuID  \n- Has_Pet.PetID = Pets.PetID",
+  "classification_result": "Reason: Requires joining Student, Has_Pet, and Pets to match students with pets of type cat and dog, then grouping/filtering by student to ensure both pet types. Nested queries are not required.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT Student.Fname\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nJOIN Pets ON Has_Pet.PetID = Pets.PetID\nWHERE Pets.PetType IN ('cat', 'dog')\nGROUP BY Student.StuID, Student.Fname\nHAVING COUNT(DISTINCT Pets.PetType) = 2;",
+  "corrected_sql": "SELECT Student.Fname\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nJOIN Pets ON Has_Pet.PetID = Pets.PetID\nWHERE Pets.PetType IN ('cat', 'dog')\nGROUP BY Student.StuID, Student.Fname\nHAVING COUNT(DISTINCT Pets.PetType) = 2;",
+  "gold_sql": "select t1.fname from student as t1 join has_pet as t2 on t1.stuid  =  t2.stuid join pets as t3 on t3.petid  =  t2.petid where t3.pettype  =  'cat' intersect select t1.fname from student as t1 join has_pet as t2 on t1.stuid  =  t2.stuid join pets as t3 on t3.petid  =  t2.petid where t3.pettype  =  'dog'"
+}

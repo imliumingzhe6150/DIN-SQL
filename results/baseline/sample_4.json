@@ -1,0 +1,10 @@
+{
+  "sample_id": 4,
+  "question": "What is the average, minimum, and maximum age of all singers from France?",
+  "database": "concert_singer",
+  "gold_sql": "SELECT avg(age) ,  min(age) ,  max(age) FROM singer WHERE country  =  'France'",
+  "generated_sql": "SELECT AVG(Age), MIN(Age), MAX(Age) FROM singer WHERE Country = 'France';",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

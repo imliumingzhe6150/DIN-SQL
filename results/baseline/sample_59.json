@@ -1,0 +1,10 @@
+{
+  "sample_id": 59,
+  "question": "Find the first name of students who have both cat and dog pets .",
+  "database": "pets_1",
+  "gold_sql": "select t1.fname from student as t1 join has_pet as t2 on t1.stuid  =  t2.stuid join pets as t3 on t3.petid  =  t2.petid where t3.pettype  =  'cat' intersect select t1.fname from student as t1 join has_pet as t2 on t1.stuid  =  t2.stuid join pets as t3 on t3.petid  =  t2.petid where t3.pettype  =  'dog'",
+  "generated_sql": "SELECT DISTINCT Student.Fname\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID\nJOIN Pets ON Has_Pet.PetID = Pets.PetID\nWHERE LOWER(Pets.PetType) IN ('cat', 'dog')\nGROUP BY Student.StuID, Student.Fname\nHAVING COUNT(DISTINCT LOWER(Pets.PetType)) = 2;",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

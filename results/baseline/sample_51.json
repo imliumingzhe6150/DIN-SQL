@@ -1,0 +1,10 @@
+{
+  "sample_id": 51,
+  "question": "Find number of pets owned by students who are older than 20.",
+  "database": "pets_1",
+  "gold_sql": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.age  >  20",
+  "generated_sql": "SELECT COUNT(*) FROM Has_Pet JOIN Student ON Has_Pet.StuID = Student.StuID WHERE Student.Age > 20;",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

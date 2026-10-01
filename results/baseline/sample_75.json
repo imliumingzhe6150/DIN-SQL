@@ -1,0 +1,10 @@
+{
+  "sample_id": 75,
+  "question": "Find the first name and age of students who have a pet.",
+  "database": "pets_1",
+  "gold_sql": "SELECT DISTINCT T1.fname ,  T1.age FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid",
+  "generated_sql": "SELECT DISTINCT Student.Fname, Student.Age\nFROM Student\nJOIN Has_Pet ON Student.StuID = Has_Pet.StuID;",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

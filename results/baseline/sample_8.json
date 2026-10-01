@@ -1,0 +1,10 @@
+{
+  "sample_id": 8,
+  "question": "What are all distinct countries where singers above age 20 are from?",
+  "database": "concert_singer",
+  "gold_sql": "SELECT DISTINCT country FROM singer WHERE age  >  20",
+  "generated_sql": "SELECT DISTINCT Country FROM singer WHERE Age > 20;",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

@@ -1,0 +1,11 @@
+{
+  "sample_id": 39,
+  "question": "what is the name and nation of the singer who have a song having 'Hey' in its name?",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: [singer.Name, singer.Country, singer.Song_Name]",
+  "classification_result": "Reason: The required information is in the single table `singer`, and the condition can be applied directly with a `LIKE` filter on `Song_Name`.\nLabel: EASY\nSub_questions: []",
+  "predicted_class": "EASY",
+  "generated_sql": "SELECT Name, Country FROM singer WHERE Song_Name LIKE '%Hey%';",
+  "corrected_sql": "SELECT Name, Country FROM singer WHERE Song_Name LIKE '%Hey%';",
+  "gold_sql": "SELECT name ,  country FROM singer WHERE song_name LIKE '%Hey%'"
+}

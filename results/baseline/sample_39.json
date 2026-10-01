@@ -1,0 +1,10 @@
+{
+  "sample_id": 39,
+  "question": "what is the name and nation of the singer who have a song having 'Hey' in its name?",
+  "database": "concert_singer",
+  "gold_sql": "SELECT name ,  country FROM singer WHERE song_name LIKE '%Hey%'",
+  "generated_sql": "SELECT Name, Country FROM singer WHERE Song_Name LIKE '%Hey%';",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

@@ -1,0 +1,10 @@
+{
+  "sample_id": 18,
+  "question": "What is the name and capacity for the stadium with highest average attendance?",
+  "database": "concert_singer",
+  "gold_sql": "SELECT name ,  capacity FROM stadium ORDER BY average DESC LIMIT 1",
+  "generated_sql": "SELECT Name, Capacity FROM stadium ORDER BY Average DESC LIMIT 1;",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

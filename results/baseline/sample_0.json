@@ -1,0 +1,10 @@
+{
+  "sample_id": 0,
+  "question": "How many singers do we have?",
+  "database": "concert_singer",
+  "gold_sql": "SELECT count(*) FROM singer",
+  "generated_sql": "SELECT COUNT(*) FROM singer;",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

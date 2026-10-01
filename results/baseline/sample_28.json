@@ -1,0 +1,10 @@
+{
+  "sample_id": 28,
+  "question": "Show the stadium names without any concert.",
+  "database": "concert_singer",
+  "gold_sql": "SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert)",
+  "generated_sql": "SELECT s.Name FROM stadium s WHERE NOT EXISTS (SELECT 1 FROM concert c WHERE c.Stadium_ID = s.Stadium_ID);",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

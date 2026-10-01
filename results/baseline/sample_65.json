@@ -1,0 +1,10 @@
+{
+  "sample_id": 65,
+  "question": "Find the first name and age of students who have a dog but do not have a cat as a pet.",
+  "database": "pets_1",
+  "gold_sql": "SELECT T1.fname ,  T1.age FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'dog' AND T1.stuid NOT IN (SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat')",
+  "generated_sql": "SELECT DISTINCT S.Fname, S.Age\nFROM Student S\nWHERE EXISTS (\n    SELECT 1\n    FROM Has_Pet HP\n    JOIN Pets P ON HP.PetID = P.PetID\n    WHERE HP.StuID = S.StuID\n      AND P.PetType = 'Dog'\n)\nAND NOT EXISTS (\n    SELECT 1\n    FROM Has_Pet HP\n    JOIN Pets P ON HP.PetID = P.PetID\n    WHERE HP.StuID = S.StuID\n      AND P.PetType = 'Cat'\n);",
+  "execution_success": true,
+  "result_match": false,
+  "error": null
+}

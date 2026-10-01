@@ -1,0 +1,10 @@
+{
+  "sample_id": 41,
+  "question": "Find the name and location of the stadiums which some concerts happened in the years of both 2014 and 2015.",
+  "database": "concert_singer",
+  "gold_sql": "SELECT T2.name ,  T2.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.Year  =  2014 INTERSECT SELECT T2.name ,  T2.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.Year  =  2015",
+  "generated_sql": "SELECT s.Name, s.Location\nFROM stadium s\nWHERE s.Stadium_ID IN (SELECT Stadium_ID FROM concert WHERE Year = 2014)\n  AND s.Stadium_ID IN (SELECT Stadium_ID FROM concert WHERE Year = 2015);",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

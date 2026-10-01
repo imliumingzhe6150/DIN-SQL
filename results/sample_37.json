@@ -1,0 +1,11 @@
+{
+  "sample_id": 37,
+  "question": "List all singer names in concerts in year 2014.",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: [singer.Name, concert.Year, singer.Singer_ID = singer_in_concert.Singer_ID, singer_in_concert.concert_ID = concert.concert_ID]",
+  "classification_result": "Reason: Need to join singer, singer_in_concert, and concert to match singers to concerts in 2014. No nested query is required.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT singer.Name\nFROM singer\nJOIN singer_in_concert ON singer.Singer_ID = singer_in_concert.Singer_ID\nJOIN concert ON singer_in_concert.concert_ID = concert.concert_ID\nWHERE concert.Year = 2014",
+  "corrected_sql": "SELECT singer.Name\nFROM singer\nJOIN singer_in_concert ON singer.Singer_ID = singer_in_concert.Singer_ID\nJOIN concert ON singer_in_concert.concert_ID = concert.concert_ID\nWHERE concert.Year = 2014",
+  "gold_sql": "SELECT T2.name FROM singer_in_concert AS T1 JOIN singer AS T2 ON T1.singer_id  =  T2.singer_id JOIN concert AS T3 ON T1.concert_id  =  T3.concert_id WHERE T3.year  =  2014"
+}

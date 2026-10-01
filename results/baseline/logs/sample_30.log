@@ -1,0 +1,6 @@
+正在调用模型，直接生成 SQL……
+SELECT Country FROM singer WHERE Age > 40
+INTERSECT
+SELECT Country FROM singer WHERE Age < 30;
+与 Gold 结果是否匹配： True
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/baseline/sample_30.json

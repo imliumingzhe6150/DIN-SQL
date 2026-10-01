@@ -1,0 +1,7 @@
+正在调用模型，直接生成 SQL……
+SELECT stadium.Name, COUNT(concert.concert_ID) AS Number_of_Concerts
+FROM stadium
+LEFT JOIN concert ON stadium.Stadium_ID = concert.Stadium_ID
+GROUP BY stadium.Stadium_ID, stadium.Name;
+与 Gold 结果是否匹配： False
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/baseline/sample_22.json

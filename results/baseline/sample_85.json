@@ -1,0 +1,10 @@
+{
+  "sample_id": 85,
+  "question": "Find the average age of students who do not have any pet .",
+  "database": "pets_1",
+  "gold_sql": "select avg(age) from student where stuid not in (select stuid from has_pet)",
+  "generated_sql": "SELECT AVG(S.Age)\nFROM Student AS S\nWHERE NOT EXISTS (\n    SELECT 1\n    FROM Has_Pet AS H\n    WHERE H.StuID = S.StuID\n);",
+  "execution_success": true,
+  "result_match": true,
+  "error": null
+}

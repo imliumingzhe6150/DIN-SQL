@@ -1,0 +1,11 @@
+{
+  "sample_id": 22,
+  "question": "Show the stadium name and the number of concerts in each stadium.",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: [stadium.Name, concert.concert_ID, stadium.Stadium_ID, concert.Stadium_ID]",
+  "classification_result": "Reason: The query requires joining the stadium and concert tables on Stadium_ID, then grouping by stadium to count concerts. No nested query is necessary.\nLabel: NON-NESTED\nSub_questions: []",
+  "predicted_class": "NON-NESTED",
+  "generated_sql": "SELECT stadium.Name, COUNT(concert.concert_ID) AS number_of_concerts\nFROM stadium\nLEFT JOIN concert ON stadium.Stadium_ID = concert.Stadium_ID\nGROUP BY stadium.Stadium_ID, stadium.Name;",
+  "corrected_sql": "SELECT stadium.Name, COUNT(concert.concert_ID) AS number_of_concerts\nFROM stadium\nLEFT JOIN concert ON stadium.Stadium_ID = concert.Stadium_ID\nGROUP BY stadium.Stadium_ID, stadium.Name;",
+  "gold_sql": "SELECT T2.name ,  count(*) FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id GROUP BY T1.stadium_id"
+}

@@ -1,0 +1,11 @@
+{
+  "sample_id": 0,
+  "question": "How many singers do we have?",
+  "database": "concert_singer",
+  "schema_links": "Schema_links: singer.Singer_ID",
+  "classification_result": "Reason: The question asks for the total number of singers, which can be answered by counting rows in the `singer` table. No joins or nested queries are needed.\nLabel: EASY\nSub_questions: []",
+  "predicted_class": "EASY",
+  "generated_sql": "SELECT COUNT(Singer_ID) FROM singer;",
+  "corrected_sql": "SELECT COUNT(Singer_ID) FROM singer;",
+  "gold_sql": "SELECT count(*) FROM singer"
+}

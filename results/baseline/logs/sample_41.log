@@ -1,0 +1,7 @@
+正在调用模型，直接生成 SQL……
+SELECT s.Name, s.Location
+FROM stadium s
+WHERE s.Stadium_ID IN (SELECT Stadium_ID FROM concert WHERE Year = 2014)
+  AND s.Stadium_ID IN (SELECT Stadium_ID FROM concert WHERE Year = 2015);
+与 Gold 结果是否匹配： True
+结果已保存到： /Users/liumingzhe/Desktop/Learning Agent/din-sql/results/baseline/sample_41.json
